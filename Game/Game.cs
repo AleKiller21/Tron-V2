@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Game
 {
-    public class GameLogic
+    public class Game
     {
         
     }
