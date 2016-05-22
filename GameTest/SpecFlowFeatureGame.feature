@@ -33,3 +33,29 @@ Scenario: Update the matrix
 Scenario: Disable old player cell
 	When I move a player 'abajo'
 	Then the player's old cell should get disable
+
+@mytag
+Scenario: Collision with border
+	Given I have created a new player 'rojo'
+	When I crash player 'rojo' with a border
+	Then player 'rojo' should die
+	
+@mytag
+Scenario: Collision with one's trail
+	Given I have created a player 'rojo'
+	When I crash player 'rojo' with his own trail
+	Then player 'rojo' should be dead
+
+@mytag
+Scenario: Collision with other player's trail
+	Given I have created player 'rojo'
+	And I have also created player 'azul'
+	When I crash player 'azul' with player 'rojo' trail
+	Then player 'azul' must die
+
+@mytag
+Scenario: Collision with other player
+	Given I have created player 'rojo'
+	And I have also created player 'azul'
+	When I crash player 'azul' with player 'rojo'
+	Then both player 'azul' and player 'rojo' must die

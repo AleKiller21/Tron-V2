@@ -73,7 +73,7 @@ namespace Game
             if(currentPlayer == null)
                 currentPlayer = AddPlayer(command.Tag);
 
-            MovePlayer(currentPlayer, command.Direction);
+            AnalyzeAndMovePlayer(currentPlayer, command.Direction);
         }
 
         internal Player GetPlayer(string tag)
@@ -91,10 +91,51 @@ namespace Game
             //TODO: Hacer la funcion mas inteligente para que busque otras posiciones
         }
 
+        private void AnalyzeAndMovePlayer(Player currentPlayer, string direction)
+        {
+            ValidationReport report = RunMovementValidations(currentPlayer, direction);
+            if (report.Status != ValidationStatus.Ok)
+                ChooseAction(report, currentPlayer);
+
+            else
+            {
+                MovePlayer(currentPlayer, direction);
+            }
+        }
+
+        private ValidationReport RunMovementValidations(Player currentPlayer, string direction)
+        {
+            ValidationProperties properties =
+                new ValidationProperties(Players, Matrix, currentPlayer, direction, Rows, Columns);
+
+            Validations validations = new Validations(properties);
+            return validations.RunValidations();
+        }
+
+        private void ChooseAction(ValidationReport report, Player currentPlayer)
+        {
+            ValidationStatus status = report.Status;
+
+            switch (status)
+            {
+                case ValidationStatus.CollisionWithBorder:
+                case ValidationStatus.CollisionWithOneSelfTrail:
+                case ValidationStatus.CollisionWithOtherPlayerTrail:
+                    KillPlayer(currentPlayer);
+                    break;
+                case ValidationStatus.CollisionWithOtherPlayer:
+                    currentPlayer.IsAlive = report.CrashTarget.IsAlive = false;
+                    break;
+            }
+        }
+
+        private static void KillPlayer(Player currentPlayer)
+        {
+            currentPlayer.IsAlive = false;
+        }
+
         private void MovePlayer(Player currentPlayer, string direction)
         {
-            RunMovementValidations(currentPlayer, direction);
-
             DisableCurrentPlayerCell(currentPlayer.Position);
             currentPlayer.Position = Position.CalculatePosition(currentPlayer.Position, direction);
             UpdateTheMatrix(currentPlayer);
@@ -107,11 +148,6 @@ namespace Game
 
             Matrix[row, col].Player = currentPlayer;
             Matrix[row, col].CellActive = true;
-        }
-
-        private void RunMovementValidations(Player currentPlayer, string direction)
-        {
-            return;
         }
 
         private void DisableCurrentPlayerCell(Position position)
