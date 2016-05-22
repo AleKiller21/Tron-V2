@@ -79,6 +79,22 @@ this.ScenarioSetup(scenarioInfo);
             this.ScenarioCleanup();
         }
         
+        [TechTalk.SpecRun.ScenarioAttribute("Add new player", new string[] {
+                "mytag"}, SourceLine=11)]
+        public virtual void AddNewPlayer()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add new player", new string[] {
+                        "mytag"});
+#line 12
+this.ScenarioSetup(scenarioInfo);
+#line 13
+ testRunner.When("I add a new player to the game", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 14
+ testRunner.Then("the player should appear in row 0 and column 0", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
         [TechTalk.SpecRun.TestRunCleanup()]
         public virtual void TestRunCleanup()
         {

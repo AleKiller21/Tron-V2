@@ -48,6 +48,12 @@ namespace Game
             }
         }
 
+        private List<Command> LoadCommands(string path)
+        {
+            //TODO: Devolver la lista de comandos del por el Parser
+            return null;
+        }
+
         private void ExecuteGame()
         {
             RunCommands();
@@ -63,14 +69,20 @@ namespace Game
 
         private void ExecuteSingleCommand(Command command)
         {
+            if (!ValidatePlayerExists(command.Tag))
+                AddPlayer(command.Tag);
             //TODO: Mover el personaje en la matriz
             //TODO: Correr todas las validaciones
         }
 
-        private List<Command> LoadCommands(string path)
+        internal void AddPlayer(string playerTag)
         {
-            //TODO: Devolver la lista de comandos del por el Parser
-            return null;
+            Players.Add(new Player(playerTag));
+        }
+
+        private bool ValidatePlayerExists(string playerTag)
+        {
+            return Players.Any(player => player.Tag == playerTag);
         }
     }
 }

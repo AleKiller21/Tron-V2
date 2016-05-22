@@ -12,10 +12,13 @@ namespace Game
 
         public bool IsAlive { get; set; }
 
+        public Position Position { get; set; }
+
         public Player(string name)
         {
             Tag = name;
             IsAlive = true;
+            Position = new Position(0, 0);
         }
     }
 }

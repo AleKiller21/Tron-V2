@@ -24,6 +24,18 @@ namespace GameTest
             Assert.AreEqual(columns, logic.Columns);
         }
 
+        [When(@"I add a new player to the game")]
+        public void WhenIAddANewPlayerToTheGame()
+        {
+            logic.AddPlayer("Rojo");
+        }
+
+        [Then(@"the player should appear in row (.*) and column (.*)")]
+        public void ThenThePlayerShouldAppearInRowAndColumn(int row, int col)
+        {
+            Assert.AreEqual(row, logic.Players[logic.Players.Count - 1].Position.Row);
+            Assert.AreEqual(col, logic.Players[logic.Players.Count - 1].Position.Column);
+        }
 
 
     }
