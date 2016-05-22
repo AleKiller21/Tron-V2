@@ -18,7 +18,7 @@ namespace Game
             CellActive = false;
         }
 
-        public string GetPlayer()
+        public override string ToString()
         {
             if (Player == null)
                 return "";

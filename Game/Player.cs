@@ -14,11 +14,11 @@ namespace Game
 
         public Position Position { get; set; }
 
-        public Player(string name)
+        public Player(string name, int row, int col)
         {
             Tag = name;
             IsAlive = true;
-            Position = new Position(0, 0);
+            Position = new Position(row, col);
         }
     }
 }

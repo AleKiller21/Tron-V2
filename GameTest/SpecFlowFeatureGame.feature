@@ -12,3 +12,19 @@ Scenario: Set rows and columns for matrix
 Scenario: Add new player
 	When I add a new player to the game
 	Then the player should appear in row 0 and column 0
+
+@mytag
+Scenario: Look for player that doesn't exist
+	When I search the tag of a non-existent player
+	Then I should get a 'null' value
+
+@mytag
+Scenario: Move player
+	When I move a new player 'derecha'
+	Then the current player should update its position to row 0 column 1
+
+@mytag
+Scenario: Update the matrix
+	Given I have created a new player
+	When I move the new player 'derecha'
+	Then the matrix should update itself

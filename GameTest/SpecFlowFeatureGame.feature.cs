@@ -95,6 +95,56 @@ this.ScenarioSetup(scenarioInfo);
             this.ScenarioCleanup();
         }
         
+        [TechTalk.SpecRun.ScenarioAttribute("Look for player that doesn\'t exist", new string[] {
+                "mytag"}, SourceLine=16)]
+        public virtual void LookForPlayerThatDoesnTExist()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Look for player that doesn\'t exist", new string[] {
+                        "mytag"});
+#line 17
+this.ScenarioSetup(scenarioInfo);
+#line 18
+ testRunner.When("I search the tag of a non-existent player", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 19
+ testRunner.Then("I should get a \'null\' value", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [TechTalk.SpecRun.ScenarioAttribute("Move player", new string[] {
+                "mytag"}, SourceLine=21)]
+        public virtual void MovePlayer()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Move player", new string[] {
+                        "mytag"});
+#line 22
+this.ScenarioSetup(scenarioInfo);
+#line 23
+ testRunner.When("I move a new player \'derecha\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 24
+ testRunner.Then("the current player should update its position to row 0 column 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [TechTalk.SpecRun.ScenarioAttribute("Update the matrix", new string[] {
+                "mytag"}, SourceLine=26)]
+        public virtual void UpdateTheMatrix()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Update the matrix", new string[] {
+                        "mytag"});
+#line 27
+this.ScenarioSetup(scenarioInfo);
+#line 28
+ testRunner.Given("I have created a new player", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 29
+ testRunner.When("I move the new player \'derecha\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 30
+ testRunner.Then("the matrix should update itself", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
         [TechTalk.SpecRun.TestRunCleanup()]
         public virtual void TestRunCleanup()
         {

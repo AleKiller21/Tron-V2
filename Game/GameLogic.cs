@@ -22,7 +22,6 @@ namespace Game
 
         public GameLogic()
         {
-            //Commands = new List<Command>();
             Players = new List<Player>();
         }
 
@@ -54,7 +53,7 @@ namespace Game
             return null;
         }
 
-        private void ExecuteGame()
+        internal void ExecuteGame()
         {
             RunCommands();
         }
@@ -67,29 +66,50 @@ namespace Game
             }
         }
 
-        private void ExecuteSingleCommand(Command command)
+        internal void ExecuteSingleCommand(Command command)
         {
-            if (!ValidatePlayerExists(command.Tag))
-                AddPlayer(command.Tag);
+            Player currentPlayer = GetPlayer(command.Tag);
 
-            MovePlayer(command);
-            //TODO: Correr todas las validaciones
+            if(currentPlayer == null)
+                currentPlayer = AddPlayer(command.Tag);
+
+            MovePlayer(currentPlayer, command.Direction);
+            RunValidations(command);
         }
 
-        internal void AddPlayer(string playerTag)
+        internal Player GetPlayer(string tag)
         {
-            Players.Add(new Player(playerTag));
+            return Players.FirstOrDefault(player => player.Tag == tag);
+        }
+
+        internal Player AddPlayer(string playerTag)
+        {
+            Player player = new Player(playerTag, 0, 0);
+            Players.Add(player);
+
+            return player;
+
             //TODO: Hacer la funcion mas inteligente para que busque otras posiciones
         }
 
-        private void MovePlayer(Command command)
+        private void MovePlayer(Player currentPlayer, string direction)
         {
-            //TODO: Mover al jugador de acuerdo con la direccion del comando
+            currentPlayer.Position = Position.CalculatePosition(currentPlayer.Position, direction);
+            UpdateTheMatrix(currentPlayer);
         }
 
-        private bool ValidatePlayerExists(string playerTag)
+        private void UpdateTheMatrix(Player currentPlayer)
         {
-            return Players.Any(player => player.Tag == playerTag);
+            int row = currentPlayer.Position.Row;
+            int col = currentPlayer.Position.Column;
+
+            Matrix[row, col].Player = currentPlayer;
+            Matrix[row, col].CellActive = true;
+        }
+
+        private void RunValidations(Command command)
+        {
+            return;
         }
     }
 }
