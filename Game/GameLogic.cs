@@ -71,13 +71,20 @@ namespace Game
         {
             if (!ValidatePlayerExists(command.Tag))
                 AddPlayer(command.Tag);
-            //TODO: Mover el personaje en la matriz
+
+            MovePlayer(command);
             //TODO: Correr todas las validaciones
         }
 
         internal void AddPlayer(string playerTag)
         {
             Players.Add(new Player(playerTag));
+            //TODO: Hacer la funcion mas inteligente para que busque otras posiciones
+        }
+
+        private void MovePlayer(Command command)
+        {
+            //TODO: Mover al jugador de acuerdo con la direccion del comando
         }
 
         private bool ValidatePlayerExists(string playerTag)
