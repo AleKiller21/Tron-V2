@@ -11,5 +11,12 @@ namespace Game
         public int Rows { get; set; }
         public int Columns { get; set; }
         public string Path { get; set; }
+
+        public GameOptions(int rows, int columns, string path)
+        {
+            Rows = rows;
+            Columns = columns;
+            Path = path;
+        }
     }
 }
