@@ -12,9 +12,16 @@ namespace Game
         public string Result { get; set; }
         public void Setup(GameOptions gameData)
         {
-            for (int row = 0; row < gameData.Rows; row++)
+            SetMatrix(gameData.Rows, gameData.Columns);
+            //TODO: Mandarle el path al Parser
+            //TODO: Obtener la lista de comandos devuelta por el Parser
+        }
+
+        private void SetMatrix(int rows, int cols)
+        {
+            for (int row = 0; row < rows; row++)
             {
-                for (int col = 0; col < gameData.Columns; col++)
+                for (int col = 0; col < cols; col++)
                 {
                     Matrix[row][col] = null;
                 }
