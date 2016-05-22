@@ -97,5 +97,26 @@ namespace GameTest
             Assert.AreEqual(cell.CellActive, logic.Matrix[0, 1].CellActive);
         }
 
+        [When(@"I move a player '(.*)'")]
+        public void WhenIMoveAPlayer(string direction)
+        {
+            logic.AddPlayer("rojo");
+            logic.SetMatrix(options.Rows, options.Columns);
+            logic.Commands = new List<Command>();
+            logic.Commands.Add(new Command("rojo", direction));
+            logic.Commands.Add(new Command("rojo", "derecha"));
+            logic.ExecuteGame();
+        }
+
+        [Then(@"the player's old cell should get disable")]
+        public void ThenThePlayerSOldCellShouldGetDisable()
+        {
+            Player player = logic.GetPlayer("rojo");
+            int row = player.Position.Row;
+            int col = player.Position.Column;
+
+            Assert.AreEqual(false, logic.Matrix[row, col - 1].CellActive);
+        }
+
     }
 }

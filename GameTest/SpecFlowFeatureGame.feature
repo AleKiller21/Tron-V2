@@ -28,3 +28,8 @@ Scenario: Update the matrix
 	Given I have created a new player
 	When I move the new player 'derecha'
 	Then the matrix should update itself
+
+@mytag
+Scenario: Disable old player cell
+	When I move a player 'abajo'
+	Then the player's old cell should get disable

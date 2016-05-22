@@ -145,6 +145,22 @@ this.ScenarioSetup(scenarioInfo);
             this.ScenarioCleanup();
         }
         
+        [TechTalk.SpecRun.ScenarioAttribute("Disable old player cell", new string[] {
+                "mytag"}, SourceLine=32)]
+        public virtual void DisableOldPlayerCell()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Disable old player cell", new string[] {
+                        "mytag"});
+#line 33
+this.ScenarioSetup(scenarioInfo);
+#line 34
+ testRunner.When("I move a player \'abajo\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 35
+ testRunner.Then("the player\'s old cell should get disable", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
         [TechTalk.SpecRun.TestRunCleanup()]
         public virtual void TestRunCleanup()
         {

@@ -74,7 +74,6 @@ namespace Game
                 currentPlayer = AddPlayer(command.Tag);
 
             MovePlayer(currentPlayer, command.Direction);
-            RunValidations(command);
         }
 
         internal Player GetPlayer(string tag)
@@ -94,6 +93,9 @@ namespace Game
 
         private void MovePlayer(Player currentPlayer, string direction)
         {
+            RunMovementValidations(currentPlayer, direction);
+
+            DisableCurrentPlayerCell(currentPlayer.Position);
             currentPlayer.Position = Position.CalculatePosition(currentPlayer.Position, direction);
             UpdateTheMatrix(currentPlayer);
         }
@@ -107,9 +109,14 @@ namespace Game
             Matrix[row, col].CellActive = true;
         }
 
-        private void RunValidations(Command command)
+        private void RunMovementValidations(Player currentPlayer, string direction)
         {
             return;
+        }
+
+        private void DisableCurrentPlayerCell(Position position)
+        {
+            Matrix[position.Row, position.Column].CellActive = false;
         }
     }
 }
