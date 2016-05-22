@@ -12,7 +12,7 @@ namespace Game
 
         public bool IsAlive { get; set; }
 
-        public Player(string name, string color)
+        public Player(string name)
         {
             Tag = name;
             IsAlive = true;
