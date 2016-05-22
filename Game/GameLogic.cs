@@ -8,9 +8,11 @@ namespace Game
 {
     public class GameLogic
     {
-        public Player[,] Matrix { get; set; }
+        public Cell[,] Matrix { get; set; }
 
         public List<Command> Commands { get; set; }
+
+        public List<Player> Players { get; set; }
 
         public string Result { get; set; }
 
@@ -20,14 +22,14 @@ namespace Game
 
         public GameLogic()
         {
-            Commands = new List<Command>();
+            //Commands = new List<Command>();
+            Players = new List<Player>();
         }
 
         public void Setup(GameOptions gameData)
         {
             SetMatrix(gameData.Rows, gameData.Columns);
-            //TODO: Mandarle el path al Parser
-            //TODO: Obtener la lista de comandos devuelta por el Parser
+            Commands = LoadCommands(gameData.Path);
             ExecuteGame();
         }
 
@@ -35,20 +37,40 @@ namespace Game
         {
             Rows = rows;
             Columns = cols;
-            Matrix = new Player[Rows, Columns];
+            Matrix = new Cell[Rows, Columns];
 
-            for (int row = 0; row < rows; row++)
+            for (var row = 0; row < rows; row++)
             {
-                for (int col = 0; col < cols; col++)
+                for (var col = 0; col < cols; col++)
                 {
-                    Matrix[row, col] = null;
+                    Matrix[row, col] = new Cell();
                 }
             }
         }
 
         private void ExecuteGame()
         {
-            
+            RunCommands();
+        }
+
+        private void RunCommands()
+        {
+            foreach (var command in Commands)
+            {
+                ExecuteSingleCommand(command);
+            }
+        }
+
+        private void ExecuteSingleCommand(Command command)
+        {
+            //TODO: Mover el personaje en la matriz
+            //TODO: Correr todas las validaciones
+        }
+
+        private List<Command> LoadCommands(string path)
+        {
+            //TODO: Devolver la lista de comandos del por el Parser
+            return null;
         }
     }
 }

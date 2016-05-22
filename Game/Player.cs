@@ -8,13 +8,17 @@ namespace Game
 {
     public class Player
     {
-        public string Name { get; set; }
+        public string Tag { get; set; }
+
         public string Color { get; set; }
+
+        public bool IsAlive { get; set; }
 
         public Player(string name, string color)
         {
-            Name = name;
+            Tag = name;
             Color = color;
+            IsAlive = true;
         }
     }
 }

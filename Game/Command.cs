@@ -8,12 +8,13 @@ namespace Game
 {
     public class Command
     {
-        public string Name { get; set; }
+        public string Tag { get; set; }
+
         public string Direction { get; set; }
 
         public Command(string name, string direction)
         {
-            Name = name;
+            Tag = name;
             Direction = direction;
         }
     }
