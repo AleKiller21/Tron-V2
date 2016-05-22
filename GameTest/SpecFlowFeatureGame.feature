@@ -1,7 +1,7 @@
-﻿Feature: SpecFlowFeatureGame
-	In order to avoid silly mistakes
-	As a math idiot
-	I want to be told the sum of two numbers
+﻿Feature: GameLogic
+	In order to allow others to play with the Tron game
+	As a programmer
+	I want to build all the logic components of the game
 
 @mytag
 Scenario: Add two numbers

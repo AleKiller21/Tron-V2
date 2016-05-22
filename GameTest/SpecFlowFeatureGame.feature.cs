@@ -17,9 +17,9 @@ namespace GameTest
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.0.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [TechTalk.SpecRun.FeatureAttribute("SpecFlowFeatureGame", Description="\tIn order to avoid silly mistakes\r\n\tAs a math idiot\r\n\tI want to be told the sum o" +
-        "f two numbers", SourceFile="SpecFlowFeatureGame.feature", SourceLine=0)]
-    public partial class SpecFlowFeatureGameFeature
+    [TechTalk.SpecRun.FeatureAttribute("GameLogic", Description="\tIn order to allow others to play with the Tron game\r\n\tAs a programmer\r\n\tI want t" +
+        "o build all the logic components of the game", SourceFile="SpecFlowFeatureGame.feature", SourceLine=0)]
+    public partial class GameLogicFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
@@ -31,8 +31,8 @@ namespace GameTest
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner(null, 0);
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "SpecFlowFeatureGame", "\tIn order to avoid silly mistakes\r\n\tAs a math idiot\r\n\tI want to be told the sum o" +
-                    "f two numbers", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "GameLogic", "\tIn order to allow others to play with the Tron game\r\n\tAs a programmer\r\n\tI want t" +
+                    "o build all the logic components of the game", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
