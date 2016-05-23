@@ -16,5 +16,10 @@
 
             return extension;
         }
+
+        public static bool IsAValidFile(string path)
+        {
+            return GetPathExtension(path) == "tb";
+        }
     }
 }
