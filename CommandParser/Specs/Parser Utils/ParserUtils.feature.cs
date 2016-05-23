@@ -92,9 +92,69 @@ this.ScenarioSetup(scenarioInfo);
 #line 5
  testRunner.Given("I have entered the following paths", ((string)(null)), table1, "Given ");
 #line 15
- testRunner.When("I call the function", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I submit a match file", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 16
  testRunner.Then("it should return the correct extension", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("An incorrect path extension has been entered")]
+        public virtual void AnIncorrectPathExtensionHasBeenEntered()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("An incorrect path extension has been entered", ((string[])(null)));
+#line 18
+this.ScenarioSetup(scenarioInfo);
+#line hidden
+            TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Path"});
+            table2.AddRow(new string[] {
+                        "match.png"});
+            table2.AddRow(new string[] {
+                        "math.py"});
+            table2.AddRow(new string[] {
+                        "hey"});
+            table2.AddRow(new string[] {
+                        "Desktop/match"});
+            table2.AddRow(new string[] {
+                        ""});
+#line 19
+ testRunner.Given("I have entered the following invalid paths", ((string)(null)), table2, "Given ");
+#line 26
+ testRunner.When("I submit a match file", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 27
+ testRunner.Then("it should display an error message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("A correct path extension has been entered")]
+        public virtual void ACorrectPathExtensionHasBeenEntered()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A correct path extension has been entered", ((string[])(null)));
+#line 29
+this.ScenarioSetup(scenarioInfo);
+#line hidden
+            TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Path"});
+            table3.AddRow(new string[] {
+                        "match.tb"});
+            table3.AddRow(new string[] {
+                        "Desktop/math.tb"});
+            table3.AddRow(new string[] {
+                        "hey.tb"});
+            table3.AddRow(new string[] {
+                        "Desktop/Docs/hm.tb"});
+            table3.AddRow(new string[] {
+                        "a.tb"});
+#line 30
+ testRunner.Given("I have entered the following valid paths", ((string)(null)), table3, "Given ");
+#line 37
+ testRunner.When("I submit a match file", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 38
+ testRunner.Then("it should accept parse the file", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
