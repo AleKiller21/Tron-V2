@@ -1,25 +1,25 @@
-﻿namespace CommandParser
+﻿using System.IO;
+
+namespace CommandParser
 {
-    public class ParserUtils
+    internal class ParserUtils
     {
-        internal static string GetPathExtension(string path)
+        public static bool IsWhiteSpaceOrLineBreak(char c)
         {
-            var lastIndexOfPeriod = path.LastIndexOfAny(new[] {'.'});
-            var noExtension = lastIndexOfPeriod < 0;
+            return char.IsWhiteSpace(c) || c == '\n';
+        }
 
-            if (noExtension) return "";
+        public static char ReadChar(FileStream file)
+        {
+            var buffer = new byte[1];
+            file.Read(buffer, 0, 1);
 
-            var extensionBeginIndex = lastIndexOfPeriod + 1;
-            var extensionLength = path.Length - extensionBeginIndex;
-
-            var extension = path.Substring(extensionBeginIndex, extensionLength);
-
-            return extension;
+            return (char)buffer[0];
         }
 
         public static bool IsAValidFile(string path)
         {
-            return GetPathExtension(path) == "tb";
+            return Path.GetExtension(path) == ".tb";
         }
     }
 }

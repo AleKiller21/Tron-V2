@@ -25,8 +25,8 @@ namespace CommandParser.Specs.Parser_Utils
         [When(@"I submit a match file")]
         public void WhenISubmitAMatchFile()
         {
-            foreach (var path in _paths)
-                _extensions.Add(global::CommandParser.ParserUtils.GetPathExtension(path));
+            //foreach (var path in _paths)
+            //    _extensions.Add(global::CommandParser.ParserUtils.GetPathExtension(path));
 
             foreach (var invalidPath in _invalidPaths)
             {
