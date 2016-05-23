@@ -8,28 +8,37 @@ namespace Game
 {
     public class GameLogic
     {
-        public Cell[,] Matrix { get; set; }
+        internal Cell[,] Matrix { get; set; }
 
-        public List<Command> Commands { get; set; }
+        internal List<Command> Commands { get; set; }
 
-        public List<Player> Players { get; set; }
+        internal List<Player> Players { get; set; }
 
-        public string Result { get; set; }
+        internal List<Player> PlayersAlive { get; set; }
 
-        public int Rows { get; set; }
+        internal string Result { get; set; }
 
-        public int Columns { get; set; }
+        internal int Rows { get; set; }
+
+        internal int Columns { get; set; }
+
+        internal int CountPlayersAlive { get; set; }
+
+        internal bool FlagCheckPlayersAlive { get; set; }
 
         public GameLogic()
         {
             Players = new List<Player>();
+            PlayersAlive = new List<Player>();
+            FlagCheckPlayersAlive = false;
+            CountPlayersAlive = 0;
         }
 
-        public void Setup(GameOptions gameData)
+        public Result Setup(GameOptions gameData)
         {
             SetMatrix(gameData.Rows, gameData.Columns);
             Commands = LoadCommands(gameData.Path);
-            ExecuteGame();
+            return ExecuteGame();
         }
 
         internal void SetMatrix(int rows, int cols)
@@ -53,16 +62,95 @@ namespace Game
             return null;
         }
 
-        internal void ExecuteGame()
+        internal Result ExecuteGame()
         {
-            RunCommands();
+            return RunCommands();
         }
 
-        private void RunCommands()
+        private Result RunCommands()
         {
             foreach (var command in Commands)
             {
                 ExecuteSingleCommand(command);
+                Result result = CheckPlayersAlive();
+
+                if (result != null)
+                    return result;
+            }
+
+            string message = "Ningun jugador ha ganado";
+            return new Result(Matrix, message);
+        }
+
+        private Result CheckPlayersAlive()
+        {
+            if (!FlagCheckPlayersAlive)
+                return null;
+
+            if (CountPlayersAlive > 2)
+                return null;
+
+            if (CountPlayersAlive == 2)
+            {
+                SetLastTwoPlayersAlive();
+                return null;
+            }
+
+            if (CountPlayersAlive == 1)
+            {
+                return LastManStanding();
+            }
+
+            if (CountPlayersAlive == 0)
+            {
+                return SetTie();
+            }
+
+            return null;
+        }
+
+        private void SetLastTwoPlayersAlive()
+        {
+            PlayersAlive = Players.Where(player => player.IsAlive).ToList();
+        }
+
+        private Result LastManStanding()
+        {
+            Player winner = null;
+
+            if (PlayersAlive.Count > 0)
+            {
+                foreach (var player in PlayersAlive.Where(player => player.IsAlive))
+                {
+                    winner = player;
+                }
+            }
+
+            else
+            {
+                foreach (var player in Players.Where(player => player.IsAlive))
+                {
+                    winner = player;
+                }
+            }
+
+            string message = String.Format("El ganador es {0}", winner.Tag);
+            Result result = new Result(Matrix, message);
+
+            return result;
+        }
+
+        private Result SetTie()
+        {
+            if (PlayersAlive.Count > 0)
+            {
+                string message = String.Format("Ha sido un empate entre {0} y {1}", PlayersAlive[0], PlayersAlive[1]);
+                return new Result(Matrix, message);
+            }
+
+            else
+            {
+                return new Result(Matrix, "Ha sido un empate");
             }
         }
 
@@ -85,6 +173,10 @@ namespace Game
         {
             Player player = new Player(playerTag, 0, 0);
             Players.Add(player);
+            CountPlayersAlive++;
+
+            if (Players.Count > 1 && !FlagCheckPlayersAlive)
+                FlagCheckPlayersAlive = true;
 
             return player;
 
@@ -120,18 +212,37 @@ namespace Game
             {
                 case ValidationStatus.CollisionWithBorder:
                 case ValidationStatus.CollisionWithOneSelfTrail:
+                    currentPlayer.IsAlive = false;
+                    CountPlayersAlive--;
+                    DisableCurrentPlayerCell(currentPlayer.Position);
+                    break;
                 case ValidationStatus.CollisionWithOtherPlayerTrail:
-                    KillPlayer(currentPlayer);
+                    KillTwoPlayers(report, currentPlayer);
                     break;
                 case ValidationStatus.CollisionWithOtherPlayer:
-                    currentPlayer.IsAlive = report.CrashTarget.IsAlive = false;
+                    KillTwoPlayers(report, currentPlayer);
                     break;
             }
         }
 
-        private static void KillPlayer(Player currentPlayer)
+        private void KillTwoPlayers(ValidationReport report, Player currentPlayer)
         {
-            currentPlayer.IsAlive = false;
+            Matrix[report.Destination.Row, report.Destination.Column].Player = currentPlayer;
+
+            if (report.Status == ValidationStatus.CollisionWithOtherPlayerTrail)
+            {
+                DisableCurrentPlayerCell(currentPlayer.Position);
+                currentPlayer.IsAlive = false;
+                CountPlayersAlive--;
+            }
+
+            else
+            {
+                DisableCurrentPlayerCell(currentPlayer.Position);
+                DisableCurrentPlayerCell(report.CrashTarget.Position);
+                currentPlayer.IsAlive = report.CrashTarget.IsAlive = false;
+                CountPlayersAlive -= 2;
+            }
         }
 
         private void MovePlayer(Player currentPlayer, string direction)

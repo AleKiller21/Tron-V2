@@ -217,11 +217,11 @@ this.ScenarioSetup(scenarioInfo);
             this.ScenarioCleanup();
         }
         
-        [TechTalk.SpecRun.ScenarioAttribute("Collision with other player", new string[] {
+        [TechTalk.SpecRun.ScenarioAttribute("Set player death position", new string[] {
                 "mytag"}, SourceLine=56)]
-        public virtual void CollisionWithOtherPlayer()
+        public virtual void SetPlayerDeathPosition()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Collision with other player", new string[] {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Set player death position", new string[] {
                         "mytag"});
 #line 57
 this.ScenarioSetup(scenarioInfo);
@@ -230,9 +230,107 @@ this.ScenarioSetup(scenarioInfo);
 #line 59
  testRunner.And("I have also created player \'azul\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 60
- testRunner.When("I crash player \'azul\' with player \'rojo\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I crash player \'azul\' with player \'rojo\' trail", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 61
+ testRunner.Then("player \'azul\' must be set within player \'rojo\' trail", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [TechTalk.SpecRun.ScenarioAttribute("Collision with other player", new string[] {
+                "mytag"}, SourceLine=63)]
+        public virtual void CollisionWithOtherPlayer()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Collision with other player", new string[] {
+                        "mytag"});
+#line 64
+this.ScenarioSetup(scenarioInfo);
+#line 65
+ testRunner.Given("I have created player \'rojo\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 66
+ testRunner.And("I have also created player \'azul\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 67
+ testRunner.When("I crash player \'azul\' with player \'rojo\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 68
  testRunner.Then("both player \'azul\' and player \'rojo\' must die", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [TechTalk.SpecRun.ScenarioAttribute("Initiate FlagCheckPlayersAlive", new string[] {
+                "mytag"}, SourceLine=70)]
+        public virtual void InitiateFlagCheckPlayersAlive()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Initiate FlagCheckPlayersAlive", new string[] {
+                        "mytag"});
+#line 71
+this.ScenarioSetup(scenarioInfo);
+#line 72
+ testRunner.When("I create player \'rojo\' and player \'azul\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 73
+ testRunner.Then("FlagCheckPlayersAlive must be set to true", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [TechTalk.SpecRun.ScenarioAttribute("Check PlayersAlive list", new string[] {
+                "mytag"}, SourceLine=75)]
+        public virtual void CheckPlayersAliveList()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Check PlayersAlive list", new string[] {
+                        "mytag"});
+#line 76
+this.ScenarioSetup(scenarioInfo);
+#line 77
+ testRunner.Given("I first created player \'rojo\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 78
+ testRunner.And("then created player \'azul\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 79
+ testRunner.And("finally created player \'green\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 80
+ testRunner.When("I crash player \'green\' into his own trail", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 81
+ testRunner.Then("PlayersAlive list must be 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [TechTalk.SpecRun.ScenarioAttribute("Check winner", new string[] {
+                "mytag"}, SourceLine=83)]
+        public virtual void CheckWinner()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Check winner", new string[] {
+                        "mytag"});
+#line 84
+this.ScenarioSetup(scenarioInfo);
+#line 85
+ testRunner.Given("I first created player \'red\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 86
+ testRunner.And("then created player \'blue\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 87
+ testRunner.And("finally created player \'green\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 88
+ testRunner.When("I crash player \'green\' into his own trail", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 89
+ testRunner.And("crash player \'blue\' into player \'red\' trail", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 90
+ testRunner.Then("player \'red\' must be the winner", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [TechTalk.SpecRun.ScenarioAttribute("Set tie", new string[] {
+                "mytag"}, SourceLine=92)]
+        public virtual void SetTie()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Set tie", new string[] {
+                        "mytag"});
+#line 93
+this.ScenarioSetup(scenarioInfo);
+#line 94
+ testRunner.When("player \'green\' crashes player \'red\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 95
+ testRunner.Then("there must be a tie", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

@@ -199,6 +199,16 @@ namespace GameTest
             Assert.AreEqual(false, player.IsAlive);
         }
 
+        [Then(@"player '(.*)' must be set within player '(.*)' trail")]
+        public void ThenPlayerMustBeSetWithinPlayerTrail(string p1, string p2)
+        {
+            Player Rojo = _logic.GetPlayer(p2);
+            Player Azul = _logic.GetPlayer(p1);
+            Position position = Rojo.Position;
+
+            Assert.AreEqual(Azul.Tag, _logic.Matrix[position.Row, position.Column - 1].Player.Tag);
+        }
+
         [When(@"I crash player '(.*)' with player '(.*)'")]
         public void WhenICrashPlayerWithPlayer(string p1, string p2)
         {
@@ -221,6 +231,92 @@ namespace GameTest
             Player playerRojo = _logic.GetPlayer(p2);
             Assert.AreEqual(false, playerAzul.IsAlive);
             Assert.AreEqual(false, playerRojo.IsAlive);
+        }
+
+        [When(@"I create player '(.*)' and player '(.*)'")]
+        public void WhenICreatePlayerAndPlayer(string p1, string p2)
+        {
+            _logic.SetMatrix(_options.Rows, _options.Columns);
+            _logic.Commands = new List<Command>();
+            _logic.Commands.Add(new Command(p1, "derecha"));
+            _logic.Commands.Add(new Command(p2, "abajo"));
+            _logic.ExecuteGame();
+        }
+
+        [Then(@"FlagCheckPlayersAlive must be set to true")]
+        public void ThenFlagCheckPlayersAliveMustBeSetToTrue()
+        {
+            Assert.AreEqual(true, _logic.FlagCheckPlayersAlive);
+        }
+
+        [Given(@"I first created player '(.*)'")]
+        public void GivenIFirstCreatedPlayer(string player)
+        {
+            _logic.AddPlayer(player);
+            _logic.SetMatrix(_options.Rows, _options.Columns);
+        }
+
+        [Given(@"then created player '(.*)'")]
+        public void GivenThenCreatedPlayer(string player)
+        {
+            _logic.AddPlayer(player);
+        }
+
+        [Given(@"finally created player '(.*)'")]
+        public void GivenFinallyCreatedPlayer(string player)
+        {
+            _logic.AddPlayer(player);
+        }
+
+        [When(@"I crash player '(.*)' into his own trail")]
+        public void WhenICrashPlayerIntoHisOwnTrail(string player)
+        {
+            _logic.Commands = new List<Command>();
+            _logic.Commands.Add(new Command(player, "derecha"));
+            _logic.Commands.Add(new Command(player, "derecha"));
+            _logic.Commands.Add(new Command(player, "abajo"));
+            _logic.Commands.Add(new Command(player, "izquierda"));
+            _logic.Commands.Add(new Command(player, "arriba"));
+            _logic.ExecuteGame();
+        }
+
+        [Then(@"PlayersAlive list must be (.*)")]
+        public void ThenPlayersAliveListMustBe(int count)
+        {
+            Assert.AreEqual(count, _logic.PlayersAlive.Count);
+        }
+
+        [When(@"crash player '(.*)' into player '(.*)' trail")]
+        public void WhenCrashPlayerIntoPlayerTrail(string p0, string p1)
+        {
+            _logic.Commands = new List<Command>();
+            _logic.Commands.Add(new Command(p1, "abajo"));
+            _logic.Commands.Add(new Command(p1, "abajo"));
+            _logic.Commands.Add(new Command(p1, "abajo"));
+            _logic.Commands.Add(new Command(p0, "abajo"));
+        }
+
+        [Then(@"player '(.*)' must be the winner")]
+        public void ThenPlayerMustBeTheWinner(string p0)
+        {
+            Result result = _logic.ExecuteGame();
+            Assert.AreEqual(String.Format("El ganador es {0}", p0), result.Description);
+        }
+
+        [When(@"player '(.*)' crashes player '(.*)'")]
+        public void WhenPlayerCrashesPlayer(string p0, string p1)
+        {
+            _logic.SetMatrix(_options.Rows, _options.Columns);
+            _logic.Commands = new List<Command>();
+            _logic.Commands.Add(new Command(p1, "abajo"));
+            _logic.Commands.Add(new Command(p0, "abajo"));
+        }
+
+        [Then(@"there must be a tie")]
+        public void ThenThereMustBeATie()
+        {
+            Result result = _logic.ExecuteGame();
+            Assert.AreEqual("Ha sido un empate", result.Description);
         }
 
     }

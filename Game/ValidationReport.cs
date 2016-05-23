@@ -12,10 +12,13 @@ namespace Game
 
         public Player CrashTarget { get; set; }
 
-        public ValidationReport(ValidationStatus status, Player crashTarget)
+        public Position Destination { get; set; }
+
+        public ValidationReport(ValidationStatus status, Player crashTarget, Position destination)
         {
             Status = status;
             CrashTarget = crashTarget;
+            Destination = destination;
         }
     }
 }

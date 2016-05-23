@@ -24,21 +24,21 @@ namespace Game
             int col = testPosition.Column;
 
             if (CollisionWithBorder(testPosition))
-                return new ValidationReport(ValidationStatus.CollisionWithBorder, null);
+                return new ValidationReport(ValidationStatus.CollisionWithBorder, null, testPosition);
 
-            if (CollisionWithOneSelfTrail(testPosition, currentPlayer, row, col))
-                return new ValidationReport(ValidationStatus.CollisionWithOneSelfTrail, null);
+            if (CollisionWithOneSelfTrail(currentPlayer, row, col))
+                return new ValidationReport(ValidationStatus.CollisionWithOneSelfTrail, null, testPosition);
 
-            if (CollisionWithOtherPlayerTrail(testPosition, row, col))
-                return new ValidationReport(ValidationStatus.CollisionWithOtherPlayerTrail, null);
+            if (CollisionWithOtherPlayerTrail(row, col))
+                return new ValidationReport(ValidationStatus.CollisionWithOtherPlayerTrail, null, testPosition);
 
-            if (CollisionWithOtherPlayer(testPosition, row, col))
+            if (CollisionWithOtherPlayer(row, col))
             {
                 Player crashPlayer = Properties.Matrix[testPosition.Row, testPosition.Column].Player;
-                return new ValidationReport(ValidationStatus.CollisionWithOtherPlayer, crashPlayer);
+                return new ValidationReport(ValidationStatus.CollisionWithOtherPlayer, crashPlayer, testPosition);
             }
 
-            return new ValidationReport(ValidationStatus.Ok, null);
+            return new ValidationReport(ValidationStatus.Ok, null, testPosition);
         }
 
         private bool CollisionWithBorder(Position testPosition)
@@ -47,18 +47,18 @@ namespace Game
                    testPosition.Column == Properties.MatrixColumns || testPosition.Column < 0;
         }
 
-        private bool CollisionWithOneSelfTrail(Position testPosition, Player currentPlayer, int row, int col)
+        private bool CollisionWithOneSelfTrail(Player currentPlayer, int row, int col)
         {
             return Properties.Matrix[row, col].Player != null && 
                 Properties.Matrix[row, col].Player.Tag.Equals(currentPlayer.Tag);
         }
 
-        private bool CollisionWithOtherPlayerTrail(Position testPosition, int row, int col)
+        private bool CollisionWithOtherPlayerTrail(int row, int col)
         {
             return Properties.Matrix[row, col].Player != null && !Properties.Matrix[row, col].CellActive;
         }
 
-        private bool CollisionWithOtherPlayer(Position testPosition, int row, int col)
+        private bool CollisionWithOtherPlayer(int row, int col)
         {
             return Properties.Matrix[row, col].Player != null && Properties.Matrix[row, col].CellActive;
         }

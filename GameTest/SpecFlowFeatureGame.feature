@@ -54,8 +54,42 @@ Scenario: Collision with other player's trail
 	Then player 'azul' must die
 
 @mytag
+Scenario: Set player death position
+	Given I have created player 'rojo'
+	And I have also created player 'azul'
+	When I crash player 'azul' with player 'rojo' trail
+	Then player 'azul' must be set within player 'rojo' trail
+
+@mytag
 Scenario: Collision with other player
 	Given I have created player 'rojo'
 	And I have also created player 'azul'
 	When I crash player 'azul' with player 'rojo'
 	Then both player 'azul' and player 'rojo' must die
+
+@mytag
+Scenario: Initiate FlagCheckPlayersAlive
+	When I create player 'rojo' and player 'azul'
+	Then FlagCheckPlayersAlive must be set to true
+
+@mytag
+Scenario: Check PlayersAlive list
+	Given I first created player 'rojo'
+	And then created player 'azul'
+	And finally created player 'green'
+	When I crash player 'green' into his own trail
+	Then PlayersAlive list must be 2
+
+@mytag
+Scenario: Check winner
+	Given I first created player 'red'
+	And then created player 'blue'
+	And finally created player 'green'
+	When I crash player 'green' into his own trail
+	And crash player 'blue' into player 'red' trail
+	Then player 'red' must be the winner
+
+@mytag
+Scenario: Set tie
+	When player 'green' crashes player 'red'
+	Then there must be a tie
