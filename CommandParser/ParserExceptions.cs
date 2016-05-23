@@ -2,7 +2,7 @@
 
 namespace CommandParser
 {
-    class InvalidFileExtensionException : Exception
+    public class InvalidFileExtensionException : Exception
     {
         public InvalidFileExtensionException(string message) : base(message)
         {
@@ -10,7 +10,7 @@ namespace CommandParser
         }
     }
 
-    class UnexpectedTokenException : Exception
+    public class UnexpectedTokenException : Exception
     {
         public UnexpectedTokenException(string message) : base(message)
         {
@@ -18,7 +18,7 @@ namespace CommandParser
         }
     }
 
-    class InvalidMoveException : Exception
+    public class InvalidMoveException : Exception
     {
         public InvalidMoveException(string message)
             : base(message)
