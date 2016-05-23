@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Command_Parser", "Command_Parser\Command_Parser.csproj", "{C03F792B-C86E-4FEF-970A-1526B1FC2A1A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandParser", "CommandParser\CommandParser.csproj", "{92139032-CA50-4078-8227-F1985786CD3E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication1", "ConsoleApplication1\ConsoleApplication1.csproj", "{39087DC8-4C9A-4B6F-8CF0-3B46FED5C7E9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game", "Game\Game.csproj", "{736DBF7A-F979-441D-AB93-468B66CBA47F}"
 EndProject
