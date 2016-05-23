@@ -31,7 +31,8 @@ namespace GameTest
         [When(@"I add a new player to the game")]
         public void WhenIAddANewPlayerToTheGame()
         {
-            _logic.AddPlayer("Rojo");
+            _logic.SetMatrix(_options.Rows, _options.Columns);
+            _logic.AddFixedPlayer("Rojo", 0, 0);
         }
 
         [Then(@"the player should appear in row (.*) and column (.*)")]
@@ -54,12 +55,11 @@ namespace GameTest
                 Assert.AreEqual(value, "null");
         }
 
-        [When(@"I move a new player '(.*)'")]
-        public void WhenIMoveANewPlayerDown(string direction)
+        [When(@"I move a new player right (.*)")]
+        public void WhenIMoveANewPlayerRight(PlayerMoves direction)
         {
-            _playerRow = _logic.AddPlayer("rojo").Position.Row;
-            _playerColumn = _logic.AddPlayer("rojo").Position.Column;
             _logic.SetMatrix(_options.Rows, _options.Columns);
+            _logic.AddFixedPlayer("rojo", 0, 0);
             _logic.Commands = new List<Command>();
             _logic.Commands.Add(new Command("rojo", direction));
             _logic.ExecuteGame();
@@ -76,12 +76,12 @@ namespace GameTest
         [Given(@"I have created a new player")]
         public void GivenIHaveCreatedANewPlayer()
         {
-            _logic.AddPlayer("rojo");
             _logic.SetMatrix(_options.Rows, _options.Columns);
+            _logic.AddFixedPlayer("rojo", 0, 0);
         }
 
-        [When(@"I move the new player '(.*)'")]
-        public void WhenIMoveTheNewPlayer(string direction)
+        [When(@"I move the new player right (.*)")]
+        public void WhenIMoveTheNewPlayerRight(PlayerMoves direction)
         {
             _logic.Commands = new List<Command>();
             _logic.Commands.Add(new Command("rojo", direction));
@@ -96,14 +96,14 @@ namespace GameTest
             Assert.AreEqual(cell.CellActive, _logic.Matrix[0, 1].CellActive);
         }
 
-        [When(@"I move a player '(.*)'")]
-        public void WhenIMoveAPlayer(string direction)
+        [When(@"I move a player down (.*)")]
+        public void WhenIMoveAPlayerDown(PlayerMoves direction)
         {
-            _logic.AddPlayer("rojo");
             _logic.SetMatrix(_options.Rows, _options.Columns);
+            _logic.AddFixedPlayer("rojo", 0, 0);
             _logic.Commands = new List<Command>();
             _logic.Commands.Add(new Command("rojo", direction));
-            _logic.Commands.Add(new Command("rojo", "derecha"));
+            _logic.Commands.Add(new Command("rojo", PlayerMoves.Right));
             _logic.ExecuteGame();
         }
 
@@ -120,15 +120,15 @@ namespace GameTest
         [Given(@"I have created a new player '(.*)'")]
         public void GivenIHaveCreatedANewPlayer(string tag)
         {
-            _logic.AddPlayer(tag);
             _logic.SetMatrix(_options.Rows, _options.Columns);
+            _logic.AddFixedPlayer(tag, 0, 0);
         }
 
         [When(@"I crash player '(.*)' with a border")]
         public void WhenICrashPlayerWithABorder(string tag)
         {
             _logic.Commands = new List<Command>();
-            _logic.Commands.Add(new Command(tag, "arriba"));
+            _logic.Commands.Add(new Command(tag, PlayerMoves.Up));
             _logic.ExecuteGame();
         }
 
@@ -142,19 +142,19 @@ namespace GameTest
         [Given(@"I have created a player '(.*)'")]
         public void GivenIHaveCreatedAPlayer(string tag)
         {
-            _logic.AddPlayer(tag);
             _logic.SetMatrix(_options.Rows, _options.Columns);
+            _logic.AddFixedPlayer(tag, 0, 0);
         }
 
         [When(@"I crash player '(.*)' with his own trail")]
         public void WhenICrashPlayerWithHisOwnTrail(string tag)
         {
             _logic.Commands = new List<Command>();
-            _logic.Commands.Add(new Command(tag, "abajo"));
-            _logic.Commands.Add(new Command(tag, "derecha"));
-            _logic.Commands.Add(new Command(tag, "abajo"));
-            _logic.Commands.Add(new Command(tag, "izquierda"));
-            _logic.Commands.Add(new Command(tag, "arriba"));
+            _logic.Commands.Add(new Command(tag, PlayerMoves.Down));
+            _logic.Commands.Add(new Command(tag, PlayerMoves.Right));
+            _logic.Commands.Add(new Command(tag, PlayerMoves.Down));
+            _logic.Commands.Add(new Command(tag, PlayerMoves.Left));
+            _logic.Commands.Add(new Command(tag, PlayerMoves.Up));
             _logic.ExecuteGame();
         }
 
@@ -168,27 +168,26 @@ namespace GameTest
         [Given(@"I have created player '(.*)'")]
         public void GivenIHaveCreatedPlayer(string tag)
         {
-            _logic.AddPlayer(tag);
             _logic.SetMatrix(_options.Rows, _options.Columns);
+            _logic.AddFixedPlayer(tag, 0, 0);
         }
 
         [Given(@"I have also created player '(.*)'")]
         public void GivenIHaveAlsoCreatedPlayer(string tag)
         {
-            _logic.AddPlayer(tag);
+            _logic.AddFixedPlayer(tag, 1, 0);
         }
 
         [When(@"I crash player '(.*)' with player '(.*)' trail")]
         public void WhenICrashPlayerWithPlayerTrail(string p1, string p2)
         {
             _logic.Commands = new List<Command>();
-            _logic.Commands.Add(new Command(p2, "derecha"));
-            _logic.Commands.Add(new Command(p2, "derecha"));
-            _logic.Commands.Add(new Command(p2, "derecha"));
-            _logic.Commands.Add(new Command(p1, "abajo"));
-            _logic.Commands.Add(new Command(p1, "derecha"));
-            _logic.Commands.Add(new Command(p1, "derecha"));
-            _logic.Commands.Add(new Command(p1, "arriba"));
+            _logic.Commands.Add(new Command(p2, PlayerMoves.Right));
+            _logic.Commands.Add(new Command(p2, PlayerMoves.Right));
+            _logic.Commands.Add(new Command(p2, PlayerMoves.Right));
+            _logic.Commands.Add(new Command(p1, PlayerMoves.Right));
+            _logic.Commands.Add(new Command(p1, PlayerMoves.Right));
+            _logic.Commands.Add(new Command(p1, PlayerMoves.Up));
             _logic.ExecuteGame();
         }
 
@@ -213,14 +212,13 @@ namespace GameTest
         public void WhenICrashPlayerWithPlayer(string p1, string p2)
         {
             _logic.Commands = new List<Command>();
-            _logic.Commands.Add(new Command(p2, "derecha"));
-            _logic.Commands.Add(new Command(p2, "derecha"));
-            _logic.Commands.Add(new Command(p2, "derecha"));
-            _logic.Commands.Add(new Command(p1, "abajo"));
-            _logic.Commands.Add(new Command(p1, "derecha"));
-            _logic.Commands.Add(new Command(p1, "derecha"));
-            _logic.Commands.Add(new Command(p1, "derecha"));
-            _logic.Commands.Add(new Command(p1, "arriba"));
+            _logic.Commands.Add(new Command(p2, PlayerMoves.Right));
+            _logic.Commands.Add(new Command(p2, PlayerMoves.Right));
+            _logic.Commands.Add(new Command(p2, PlayerMoves.Right));
+            _logic.Commands.Add(new Command(p1, PlayerMoves.Right));
+            _logic.Commands.Add(new Command(p1, PlayerMoves.Right));
+            _logic.Commands.Add(new Command(p1, PlayerMoves.Right));
+            _logic.Commands.Add(new Command(p1, PlayerMoves.Up));
             _logic.ExecuteGame();
         }
 
@@ -231,92 +229,6 @@ namespace GameTest
             Player playerRojo = _logic.GetPlayer(p2);
             Assert.AreEqual(false, playerAzul.IsAlive);
             Assert.AreEqual(false, playerRojo.IsAlive);
-        }
-
-        [When(@"I create player '(.*)' and player '(.*)'")]
-        public void WhenICreatePlayerAndPlayer(string p1, string p2)
-        {
-            _logic.SetMatrix(_options.Rows, _options.Columns);
-            _logic.Commands = new List<Command>();
-            _logic.Commands.Add(new Command(p1, "derecha"));
-            _logic.Commands.Add(new Command(p2, "abajo"));
-            _logic.ExecuteGame();
-        }
-
-        [Then(@"FlagCheckPlayersAlive must be set to true")]
-        public void ThenFlagCheckPlayersAliveMustBeSetToTrue()
-        {
-            Assert.AreEqual(true, _logic.FlagCheckPlayersAlive);
-        }
-
-        [Given(@"I first created player '(.*)'")]
-        public void GivenIFirstCreatedPlayer(string player)
-        {
-            _logic.AddPlayer(player);
-            _logic.SetMatrix(_options.Rows, _options.Columns);
-        }
-
-        [Given(@"then created player '(.*)'")]
-        public void GivenThenCreatedPlayer(string player)
-        {
-            _logic.AddPlayer(player);
-        }
-
-        [Given(@"finally created player '(.*)'")]
-        public void GivenFinallyCreatedPlayer(string player)
-        {
-            _logic.AddPlayer(player);
-        }
-
-        [When(@"I crash player '(.*)' into his own trail")]
-        public void WhenICrashPlayerIntoHisOwnTrail(string player)
-        {
-            _logic.Commands = new List<Command>();
-            _logic.Commands.Add(new Command(player, "derecha"));
-            _logic.Commands.Add(new Command(player, "derecha"));
-            _logic.Commands.Add(new Command(player, "abajo"));
-            _logic.Commands.Add(new Command(player, "izquierda"));
-            _logic.Commands.Add(new Command(player, "arriba"));
-            _logic.ExecuteGame();
-        }
-
-        [Then(@"PlayersAlive list must be (.*)")]
-        public void ThenPlayersAliveListMustBe(int count)
-        {
-            Assert.AreEqual(count, _logic.PlayersAlive.Count);
-        }
-
-        [When(@"crash player '(.*)' into player '(.*)' trail")]
-        public void WhenCrashPlayerIntoPlayerTrail(string p0, string p1)
-        {
-            _logic.Commands = new List<Command>();
-            _logic.Commands.Add(new Command(p1, "abajo"));
-            _logic.Commands.Add(new Command(p1, "abajo"));
-            _logic.Commands.Add(new Command(p1, "abajo"));
-            _logic.Commands.Add(new Command(p0, "abajo"));
-        }
-
-        [Then(@"player '(.*)' must be the winner")]
-        public void ThenPlayerMustBeTheWinner(string p0)
-        {
-            Result result = _logic.ExecuteGame();
-            Assert.AreEqual(String.Format("El ganador es {0}", p0), result.Description);
-        }
-
-        [When(@"player '(.*)' crashes player '(.*)'")]
-        public void WhenPlayerCrashesPlayer(string p0, string p1)
-        {
-            _logic.SetMatrix(_options.Rows, _options.Columns);
-            _logic.Commands = new List<Command>();
-            _logic.Commands.Add(new Command(p1, "abajo"));
-            _logic.Commands.Add(new Command(p0, "abajo"));
-        }
-
-        [Then(@"there must be a tie")]
-        public void ThenThereMustBeATie()
-        {
-            Result result = _logic.ExecuteGame();
-            Assert.AreEqual("Ha sido un empate", result.Description);
         }
 
     }

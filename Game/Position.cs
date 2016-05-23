@@ -18,23 +18,23 @@ namespace Game
             Column = column;
         }
 
-        public static Position CalculatePosition(Position pos, string direction)
+        public static Position CalculatePosition(Position pos, PlayerMoves direction)
         {
             int row = pos.Row;
             int col = pos.Column;
 
             switch (direction)
             {
-                case "arriba":
+                case PlayerMoves.Up:
                     return new Position(row - 1, col);
 
-                case "derecha":
+                case PlayerMoves.Right:
                     return new Position(row, col + 1);
 
-                case "abajo":
+                case PlayerMoves.Down:
                     return new Position(row + 1, col);
 
-                case "izquierda":
+                case PlayerMoves.Left:
                     return new Position(row, col - 1);
 
                 default:

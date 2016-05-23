@@ -14,13 +14,13 @@ namespace Game
 
         public Player CurrentPlayer { get; set; }
 
-        public string Direction { get; set; }
+        public PlayerMoves Direction { get; set; }
 
         public int MatrixRows { get; set; }
 
         public int MatrixColumns { get; set; }
 
-        public ValidationProperties(List<Player> players, Cell[,] matrix, Player currentPlayer, string direction, int matrixRows, int matrixColumns)
+        public ValidationProperties(List<Player> players, Cell[,] matrix, Player currentPlayer, PlayerMoves direction, int matrixRows, int matrixColumns)
         {
             Players = players;
             Matrix = matrix;

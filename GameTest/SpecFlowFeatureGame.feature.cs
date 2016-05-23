@@ -120,7 +120,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 22
 this.ScenarioSetup(scenarioInfo);
 #line 23
- testRunner.When("I move a new player \'derecha\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I move a new player right 3", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 24
  testRunner.Then("the current player should update its position to row 0 column 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
@@ -138,7 +138,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 28
  testRunner.Given("I have created a new player", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 29
- testRunner.When("I move the new player \'derecha\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I move the new player right 3", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 30
  testRunner.Then("the matrix should update itself", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
@@ -154,7 +154,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 33
 this.ScenarioSetup(scenarioInfo);
 #line 34
- testRunner.When("I move a player \'abajo\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I move a player down 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 35
  testRunner.Then("the player\'s old cell should get disable", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
@@ -253,84 +253,6 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.When("I crash player \'azul\' with player \'rojo\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 68
  testRunner.Then("both player \'azul\' and player \'rojo\' must die", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
-        [TechTalk.SpecRun.ScenarioAttribute("Initiate FlagCheckPlayersAlive", new string[] {
-                "mytag"}, SourceLine=70)]
-        public virtual void InitiateFlagCheckPlayersAlive()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Initiate FlagCheckPlayersAlive", new string[] {
-                        "mytag"});
-#line 71
-this.ScenarioSetup(scenarioInfo);
-#line 72
- testRunner.When("I create player \'rojo\' and player \'azul\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 73
- testRunner.Then("FlagCheckPlayersAlive must be set to true", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
-        [TechTalk.SpecRun.ScenarioAttribute("Check PlayersAlive list", new string[] {
-                "mytag"}, SourceLine=75)]
-        public virtual void CheckPlayersAliveList()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Check PlayersAlive list", new string[] {
-                        "mytag"});
-#line 76
-this.ScenarioSetup(scenarioInfo);
-#line 77
- testRunner.Given("I first created player \'rojo\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 78
- testRunner.And("then created player \'azul\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 79
- testRunner.And("finally created player \'green\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 80
- testRunner.When("I crash player \'green\' into his own trail", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 81
- testRunner.Then("PlayersAlive list must be 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
-        [TechTalk.SpecRun.ScenarioAttribute("Check winner", new string[] {
-                "mytag"}, SourceLine=83)]
-        public virtual void CheckWinner()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Check winner", new string[] {
-                        "mytag"});
-#line 84
-this.ScenarioSetup(scenarioInfo);
-#line 85
- testRunner.Given("I first created player \'red\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 86
- testRunner.And("then created player \'blue\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 87
- testRunner.And("finally created player \'green\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 88
- testRunner.When("I crash player \'green\' into his own trail", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 89
- testRunner.And("crash player \'blue\' into player \'red\' trail", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 90
- testRunner.Then("player \'red\' must be the winner", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
-        [TechTalk.SpecRun.ScenarioAttribute("Set tie", new string[] {
-                "mytag"}, SourceLine=92)]
-        public virtual void SetTie()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Set tie", new string[] {
-                        "mytag"});
-#line 93
-this.ScenarioSetup(scenarioInfo);
-#line 94
- testRunner.When("player \'green\' crashes player \'red\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 95
- testRunner.Then("there must be a tie", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

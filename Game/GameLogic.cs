@@ -14,8 +14,6 @@ namespace Game
 
         internal List<Player> Players { get; set; }
 
-        internal List<Player> PlayersAlive { get; set; }
-
         internal string Result { get; set; }
 
         internal int Rows { get; set; }
@@ -24,19 +22,26 @@ namespace Game
 
         internal int CountPlayersAlive { get; set; }
 
-        internal bool FlagCheckPlayersAlive { get; set; }
+        internal Random randomGenerator { get; set; }
 
         public GameLogic()
         {
             Players = new List<Player>();
-            PlayersAlive = new List<Player>();
-            FlagCheckPlayersAlive = false;
             CountPlayersAlive = 0;
+            randomGenerator = new Random(1);
         }
 
         public Result Setup(GameOptions gameData)
         {
             SetMatrix(gameData.Rows, gameData.Columns);
+
+            //---------------------------
+            //AddFixedPlayer("R", 0, 5);
+            //AddFixedPlayer("B", 2, 2);
+            //AddFixedPlayer("G", 0, 2);
+            //AddFixedPlayer("D", 4, 3);
+            //---------------------------
+
             Commands = LoadCommands(gameData.Path);
             return ExecuteGame();
         }
@@ -59,6 +64,24 @@ namespace Game
         private List<Command> LoadCommands(string path)
         {
             //TODO: Devolver la lista de comandos del por el Parser
+            
+            //List<Command> commands = new List<Command>();
+
+            //commands.Add(new Command("D", PlayerMoves.Up));
+            //commands.Add(new Command("D", PlayerMoves.Up));
+            ////commands.Add(new Command("D", PlayerMoves.Left));
+
+            //commands.Add(new Command("B", PlayerMoves.Down));
+            //commands.Add(new Command("B", PlayerMoves.Right));
+            //commands.Add(new Command("B", PlayerMoves.Down));
+
+            //commands.Add(new Command("R", PlayerMoves.Left));
+            //commands.Add(new Command("R", PlayerMoves.Left));
+
+            //commands.Add(new Command("G", PlayerMoves.Right));
+
+            //return commands;
+
             return null;
         }
 
@@ -84,54 +107,31 @@ namespace Game
 
         private Result CheckPlayersAlive()
         {
-            if (!FlagCheckPlayersAlive)
-                return null;
-
-            if (CountPlayersAlive > 2)
-                return null;
-
-            if (CountPlayersAlive == 2)
+            if ((CountPlayersAlive == 2) && Players.Count > 2)
             {
-                SetLastTwoPlayersAlive();
-                return null;
+                return SetTie();
             }
 
-            if (CountPlayersAlive == 1)
+            if (CountPlayersAlive == 1 && Players.Count > 1)
             {
-                return LastManStanding();
+                return GetLastManStanding();
             }
 
             if (CountPlayersAlive == 0)
             {
-                return SetTie();
+                return new Result(Matrix, "No hay ningun ganador");
             }
 
             return null;
         }
 
-        private void SetLastTwoPlayersAlive()
-        {
-            PlayersAlive = Players.Where(player => player.IsAlive).ToList();
-        }
-
-        private Result LastManStanding()
+        private Result GetLastManStanding()
         {
             Player winner = null;
 
-            if (PlayersAlive.Count > 0)
+            foreach (var player in Players.Where(player => player.IsAlive))
             {
-                foreach (var player in PlayersAlive.Where(player => player.IsAlive))
-                {
-                    winner = player;
-                }
-            }
-
-            else
-            {
-                foreach (var player in Players.Where(player => player.IsAlive))
-                {
-                    winner = player;
-                }
+                winner = player;
             }
 
             string message = String.Format("El ganador es {0}", winner.Tag);
@@ -142,16 +142,15 @@ namespace Game
 
         private Result SetTie()
         {
-            if (PlayersAlive.Count > 0)
+            List<Player> playersAlive = new List<Player>();
+
+            foreach (var player in Players.Where(player => player.IsAlive))
             {
-                string message = String.Format("Ha sido un empate entre {0} y {1}", PlayersAlive[0], PlayersAlive[1]);
-                return new Result(Matrix, message);
+                playersAlive.Add(player);
             }
 
-            else
-            {
-                return new Result(Matrix, "Ha sido un empate");
-            }
+            return new Result(Matrix, String.Format("Ha habido un empate entre {0}," +
+                                                    "{1}", playersAlive[0].Tag, playersAlive[1].Tag));
         }
 
         internal void ExecuteSingleCommand(Command command)
@@ -169,22 +168,46 @@ namespace Game
             return Players.FirstOrDefault(player => player.Tag == tag);
         }
 
-        internal Player AddPlayer(string playerTag)
+        private Player AddPlayer(string playerTag)
         {
-            Player player = new Player(playerTag, 0, 0);
+            Position position = GeneratePosition();
+            Player player = new Player(playerTag, position);
             Players.Add(player);
+            UpdateTheMatrix(player);
             CountPlayersAlive++;
 
-            if (Players.Count > 1 && !FlagCheckPlayersAlive)
-                FlagCheckPlayersAlive = true;
-
             return player;
-
-            //TODO: Hacer la funcion mas inteligente para que busque otras posiciones
         }
 
-        private void AnalyzeAndMovePlayer(Player currentPlayer, string direction)
+        internal Player AddFixedPlayer(string playerTag, int row, int col)
         {
+            Position position = new Position(row, col);
+            Player player = new Player(playerTag, position);
+            Players.Add(player);
+            UpdateTheMatrix(player);
+            CountPlayersAlive++;
+
+            return player;
+        }
+
+        private Position GeneratePosition()
+        {
+            int row = randomGenerator.Next(Rows);
+            int col = randomGenerator.Next(Columns);
+
+            while(Matrix[row, col].Player != null)
+            {
+                row = randomGenerator.Next(Rows);
+                col = randomGenerator.Next(Columns);
+            }
+
+            return new Position(row, col);
+        }
+
+        private void AnalyzeAndMovePlayer(Player currentPlayer, PlayerMoves direction)
+        {
+            if(!currentPlayer.IsAlive) return;
+
             ValidationReport report = RunMovementValidations(currentPlayer, direction);
             if (report.Status != ValidationStatus.Ok)
                 ChooseAction(report, currentPlayer);
@@ -195,7 +218,7 @@ namespace Game
             }
         }
 
-        private ValidationReport RunMovementValidations(Player currentPlayer, string direction)
+        private ValidationReport RunMovementValidations(Player currentPlayer, PlayerMoves direction)
         {
             ValidationProperties properties =
                 new ValidationProperties(Players, Matrix, currentPlayer, direction, Rows, Columns);
@@ -245,7 +268,7 @@ namespace Game
             }
         }
 
-        private void MovePlayer(Player currentPlayer, string direction)
+        private void MovePlayer(Player currentPlayer, PlayerMoves direction)
         {
             DisableCurrentPlayerCell(currentPlayer.Position);
             currentPlayer.Position = Position.CalculatePosition(currentPlayer.Position, direction);

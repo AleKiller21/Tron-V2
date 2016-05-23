@@ -10,9 +10,9 @@ namespace Game
     {
         public string Tag { get; set; }
 
-        public string Direction { get; set; }
+        public PlayerMoves Direction { get; set; }
 
-        public Command(string name, string direction)
+        public Command(string name, PlayerMoves direction)
         {
             Tag = name;
             Direction = direction;

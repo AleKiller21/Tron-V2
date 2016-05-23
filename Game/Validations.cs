@@ -18,7 +18,7 @@ namespace Game
         public ValidationReport RunValidations()
         {
             Player currentPlayer = Properties.CurrentPlayer;
-            string direction = Properties.Direction;
+            PlayerMoves direction = Properties.Direction;
             Position testPosition = Position.CalculatePosition(currentPlayer.Position, direction);
             int row = testPosition.Row;
             int col = testPosition.Column;
