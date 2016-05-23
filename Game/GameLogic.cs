@@ -36,10 +36,10 @@ namespace Game
             SetMatrix(gameData.Rows, gameData.Columns);
 
             //---------------------------
-            //AddFixedPlayer("R", 0, 5);
-            //AddFixedPlayer("B", 2, 2);
-            //AddFixedPlayer("G", 0, 2);
-            //AddFixedPlayer("D", 4, 3);
+            AddFixedPlayer("R", 0, 5);
+            AddFixedPlayer("B", 2, 2);
+            AddFixedPlayer("G", 0, 2);
+            AddFixedPlayer("D", 4, 3);
             //---------------------------
 
             Commands = LoadCommands(gameData.Path);
@@ -64,23 +64,23 @@ namespace Game
         private List<Command> LoadCommands(string path)
         {
             //TODO: Devolver la lista de comandos del por el Parser
-            
-            //List<Command> commands = new List<Command>();
 
-            //commands.Add(new Command("D", PlayerMoves.Up));
-            //commands.Add(new Command("D", PlayerMoves.Up));
-            ////commands.Add(new Command("D", PlayerMoves.Left));
+            List<Command> commands = new List<Command>();
 
-            //commands.Add(new Command("B", PlayerMoves.Down));
-            //commands.Add(new Command("B", PlayerMoves.Right));
-            //commands.Add(new Command("B", PlayerMoves.Down));
+            commands.Add(new Command("D", PlayerMoves.Up));
+            commands.Add(new Command("D", PlayerMoves.Up));
+            //commands.Add(new Command("D", PlayerMoves.Left));
 
-            //commands.Add(new Command("R", PlayerMoves.Left));
-            //commands.Add(new Command("R", PlayerMoves.Left));
+            commands.Add(new Command("B", PlayerMoves.Down));
+            commands.Add(new Command("B", PlayerMoves.Right));
+            commands.Add(new Command("B", PlayerMoves.Down));
 
-            //commands.Add(new Command("G", PlayerMoves.Right));
+            commands.Add(new Command("R", PlayerMoves.Left));
+            commands.Add(new Command("R", PlayerMoves.Left));
 
-            //return commands;
+            commands.Add(new Command("G", PlayerMoves.Right));
+
+            return commands;
 
             return null;
         }
