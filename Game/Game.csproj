@@ -47,11 +47,18 @@
     <Compile Include="PlayerMoves.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RandomGenerator.cs" />
     <Compile Include="Result.cs" />
     <Compile Include="ValidationProperties.cs" />
     <Compile Include="ValidationReport.cs" />
     <Compile Include="Validations.cs" />
     <Compile Include="ValidationStatus.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommandParser\CommandParser.csproj">
+      <Project>{92139032-ca50-4078-8227-f1985786cd3e}</Project>
+      <Name>CommandParser</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

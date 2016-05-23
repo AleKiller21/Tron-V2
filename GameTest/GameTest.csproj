@@ -86,6 +86,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CommandParser\CommandParser.csproj">
+      <Project>{92139032-ca50-4078-8227-f1985786cd3e}</Project>
+      <Name>CommandParser</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Game\Game.csproj">
       <Project>{736dbf7a-f979-441d-ab93-468b66cba47f}</Project>
       <Name>Game</Name>

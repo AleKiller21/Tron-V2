@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Game
 {
@@ -10,7 +8,7 @@ namespace Game
     {
         internal Cell[,] Matrix { get; set; }
 
-        internal List<Command> Commands { get; set; }
+        internal List<CommandParser.Command> Commands { get; set; }
 
         internal List<Player> Players { get; set; }
 
@@ -24,25 +22,21 @@ namespace Game
 
         internal Random randomGenerator { get; set; }
 
+        internal CommandParser.CommandParser Parser { get; set; }
+
         public GameLogic()
         {
             Players = new List<Player>();
             CountPlayersAlive = 0;
             randomGenerator = new Random(1);
+            Parser = new CommandParser.CommandParser();
+            Commands = new List<CommandParser.Command>();
         }
 
         public Result Setup(GameOptions gameData)
         {
             SetMatrix(gameData.Rows, gameData.Columns);
-
-            //---------------------------
-            AddFixedPlayer("R", 0, 5);
-            AddFixedPlayer("B", 2, 2);
-            AddFixedPlayer("G", 0, 2);
-            AddFixedPlayer("D", 4, 3);
-            //---------------------------
-
-            Commands = LoadCommands(gameData.Path);
+            Commands = Parser.Parse(gameData.Path);
             return ExecuteGame();
         }
 
@@ -59,30 +53,6 @@ namespace Game
                     Matrix[row, col] = new Cell();
                 }
             }
-        }
-
-        private List<Command> LoadCommands(string path)
-        {
-            //TODO: Devolver la lista de comandos del por el Parser
-
-            List<Command> commands = new List<Command>();
-
-            commands.Add(new Command("D", PlayerMoves.Up));
-            commands.Add(new Command("D", PlayerMoves.Up));
-            //commands.Add(new Command("D", PlayerMoves.Left));
-
-            commands.Add(new Command("B", PlayerMoves.Down));
-            commands.Add(new Command("B", PlayerMoves.Right));
-            commands.Add(new Command("B", PlayerMoves.Down));
-
-            commands.Add(new Command("R", PlayerMoves.Left));
-            commands.Add(new Command("R", PlayerMoves.Left));
-
-            commands.Add(new Command("G", PlayerMoves.Right));
-
-            return commands;
-
-            return null;
         }
 
         internal Result ExecuteGame()
@@ -153,7 +123,7 @@ namespace Game
                                                     "{1}", playersAlive[0].Tag, playersAlive[1].Tag));
         }
 
-        internal void ExecuteSingleCommand(Command command)
+        internal void ExecuteSingleCommand(CommandParser.Command command)
         {
             Player currentPlayer = GetPlayer(command.Tag);
 
@@ -192,19 +162,19 @@ namespace Game
 
         private Position GeneratePosition()
         {
-            int row = randomGenerator.Next(Rows);
-            int col = randomGenerator.Next(Columns);
+            int row = RandomGenerator.Between(0, Rows-1);
+            int col = RandomGenerator.Between(0, Columns-1);
 
             while(Matrix[row, col].Player != null)
             {
-                row = randomGenerator.Next(Rows);
-                col = randomGenerator.Next(Columns);
+                row = RandomGenerator.Between(0, Rows-1);
+                col = RandomGenerator.Between(0, Columns-1);
             }
 
             return new Position(row, col);
         }
 
-        private void AnalyzeAndMovePlayer(Player currentPlayer, PlayerMoves direction)
+        private void AnalyzeAndMovePlayer(Player currentPlayer, CommandParser.PlayerMoves direction)
         {
             if(!currentPlayer.IsAlive) return;
 
@@ -218,7 +188,7 @@ namespace Game
             }
         }
 
-        private ValidationReport RunMovementValidations(Player currentPlayer, PlayerMoves direction)
+        private ValidationReport RunMovementValidations(Player currentPlayer, CommandParser.PlayerMoves direction)
         {
             ValidationProperties properties =
                 new ValidationProperties(Players, Matrix, currentPlayer, direction, Rows, Columns);
@@ -268,7 +238,7 @@ namespace Game
             }
         }
 
-        private void MovePlayer(Player currentPlayer, PlayerMoves direction)
+        private void MovePlayer(Player currentPlayer, CommandParser.PlayerMoves direction)
         {
             DisableCurrentPlayerCell(currentPlayer.Position);
             currentPlayer.Position = Position.CalculatePosition(currentPlayer.Position, direction);

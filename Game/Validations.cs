@@ -18,7 +18,7 @@ namespace Game
         public ValidationReport RunValidations()
         {
             Player currentPlayer = Properties.CurrentPlayer;
-            PlayerMoves direction = Properties.Direction;
+            CommandParser.PlayerMoves direction = Properties.Direction;
             Position testPosition = Position.CalculatePosition(currentPlayer.Position, direction);
             int row = testPosition.Row;
             int col = testPosition.Column;
@@ -60,7 +60,9 @@ namespace Game
 
         private bool CollisionWithOtherPlayer(int row, int col)
         {
-            return Properties.Matrix[row, col].Player != null && Properties.Matrix[row, col].CellActive;
+            return Properties.Matrix[row, col].Player != null && 
+                   Properties.Matrix[row, col].CellActive   &&
+                   Properties.Matrix[row, col].Player.IsAlive;
         }
     }
 }
