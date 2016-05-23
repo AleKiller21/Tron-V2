@@ -1,16 +1,55 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using CommandParser.Parser_States;
 
 namespace CommandParser
 {
     public class CommandParser
     {
-        private const string CorrectFileExtension = "tb";
-
+        internal List<Command> Commands;
+        internal FileStream MatchFile;
+        internal ParserState ParserState;
+        internal int CurrentLine, CurrentColumn;
+ 
         public List<Command> Parse(string path)
         {
-            var incorrectFileExtension = ParserUtils.GetPathExtension(path) != CorrectFileExtension;
+            ValidateFile(path);
+            BeginParse(path);
+            
+            return Commands;
+        }
 
-            return incorrectFileExtension ? null : new List<Command>();
+        private void ValidateFile(string path)
+        {
+            if (!ParserUtils.IsAValidFile(path)) 
+                throw new InvalidFileExtensionException("Invalid file extension.");
+
+            if (!File.Exists(path)) 
+                throw new FileNotFoundException();
+        }
+
+        private void BeginParse(string path)
+        {
+            Commands = new List<Command>();
+            MatchFile = File.Open(path, FileMode.Open);
+            ParserState =  new WaitForTagState(this);
+            CurrentLine = 1;
+            CurrentColumn = 1;
+            
+            while (MatchFile.Position < MatchFile.Length)
+            {
+                var character = ParserUtils.ReadChar(MatchFile);
+
+                ParserState.ParseNext(character);
+
+                CurrentColumn++;
+
+                if (character != '\n') continue;
+                CurrentLine++;
+                CurrentColumn = 1;
+            }
+
+            MatchFile.Close();
         }
     }
 }
