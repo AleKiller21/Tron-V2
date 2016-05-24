@@ -22,10 +22,10 @@ namespace CommandParser
         private void ValidateFile(string path)
         {
             if (!ParserUtils.IsAValidFile(path)) 
-                throw new InvalidFileExtensionException("Invalid file extension.");
+                throw new InvalidFileExtensionException("Invalid file extension: " + Path.GetExtension(path) + ". Expected: .tb");
 
             if (!File.Exists(path)) 
-                throw new FileNotFoundException();
+                throw new FileNotFoundException("Unable to find file at: " + path);
         }
 
         private void BeginParse(string path)
